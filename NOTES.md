@@ -49,7 +49,7 @@ Rasterization
 
 ## PROJECT STARTER PACK
 
-### Command Line 
+### Command Line
 
     npm create vite@latest <project-name> *(no '<>')*
     npm install
@@ -60,47 +60,35 @@ Rasterization
 ### main.js BOILERPLATE
 
     // main.js
-    import * as THREE from 'three';
+    import * as THREE from 'three'
 
-    // 1. Scene setup
+    // Scene
     const scene = new THREE.Scene();
 
-    // 2. Camera setup
-    // PerspectiveCamera(field of view, aspect ratio, near, far)
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // PerspectiveCamera
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
     camera.position.z = 5;
 
-    // 3. Renderer setup
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    // WebGLRenderer
+    const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // Example: Create a spinning cube
+    // single BoxGeometry centered at (0, 0, 0) -> geometry, material and mesh
     const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const material = new THREE.MeshBasicMaterial({color: 0x00ff00});
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
 
-    // 4. Render Loop (Animation)
-    function animate() {
-        requestAnimationFrame(animate);
+    // Render or animation loop
+    function animate(){
 
-        // Rotate the cube on every frame
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
 
-        renderer.render(scene, camera);
-    }
-
-    // Handle window resizing
-    window.addEventListener('resize', () => {
-        // Update aspect ratio and size on resize
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    animate();
+    renderer.render(scene, camera);
+    };
+    renderer.setAnimationLoop(animate);
 
 ## Lighting
 
