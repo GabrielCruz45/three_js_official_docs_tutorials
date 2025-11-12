@@ -13,16 +13,38 @@ import * as THREE from 'three'
 // Scene
 const scene = new THREE.Scene(); // you use 'new' when instatianting a new object -> you are calling a constructor function
 
-// WebGLRenderer
-const renderer = new THREE.WebGLRenderer();
-let width = window.innerWidth;
-let height = window.innerHeight;
-renderer.setSize(width, height);
-document.body.appendChild(renderer.domElement);
+const sizes = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
 
 // PerspectiveCamera
-const camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, sizes.width/sizes.height, 0.1, 1000);
 camera.position.z = 5;
+
+
+// WebGLRenderer
+const renderer = new THREE.WebGLRenderer({
+  antialias: true
+});
+
+renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+document.body.appendChild(renderer.domElement);
+
+// window resizing
+window.addEventListener('resize', () => {
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+  
+  camera.aspect = sizes.width / sizes.height;
+  // must be called after updating the aspect ratio to apply the changes
+  camera.updateProjectionMatrix();
+  
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
 
 
 // single BoxGeometry centered at (0, 0, 0) -> geometry, material and mesh
@@ -37,15 +59,15 @@ let isMovingSideways = true;
 
 function animate() {
   
-  cube.rotation.x += 0.1;
-  cube.rotation.y += 0.1;
+  cube.rotation.x += 0.001;
+  cube.rotation.y += 0.001;
 
   // Use a variable for speed for industry-standard code
-  const speed = 0.1; 
+  const speed = 0.001; 
   const startZ = 5;
   const endZ = 10;
 
-  const cubeSpeed = 0.01;
+  const cubeSpeed = 0.001;
   const cubeXstart = 0;
   const cubeXfinish = 7;
 
